@@ -1,0 +1,21 @@
+.MsgStyle {
+  padding: 1rem 0;
+  margin: 1rem auto 3rem;
+  width: 48%;
+  border-radius: 10px;
+}
+
+.errorMsg {
+  background-color: red;
+}
+
+.errorMsg p,
+.successMsg p {
+  color: #fff;
+  text-align: center;
+  font-weight: bold;
+}
+
+.successMsg {
+  background-color: lightblue;
+}

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('../layout/head.ejs') %>
+
+  <body>
+    <!-- navigation -->
+    <%- include('../layout/navigation.ejs') %>
+
+    <header>
+      <div class="jumbotron justify-content-center bg-dark">
+        <h1 class="display-4 text-center text-white font-weight-bold">
+          <%= pageTitle %>
+        </h1>
+        <p class="lead text-center text-white-50">Get a full G license.</p>
+      </div>
+    </header>
+
+    <main
+      class="d-flex justify-content-center py-5 flex-column align-items-center"
+    >
+      <form class="needs-validation col-md-6" action="/G_TEST" method="post">
+        <div class="form-row mb-5">
+          <div class="col-md-12 mb-3">
+            <label for="LicenseNumber">License Number</label>
+            <input
+              type="text"
+              class="form-control"
+              id="LicenseNumber"
+              name="LicenseNumber"
+              placeholder="License Number"
+              maxlength="8"
+              size="8"
+              required
+            />
+          </div>
+          <button class="btn btn-primary w-100">Submit form</button>
+        </div>
+      </form>
+
+      <% if (user) { %> <% if (message) { %>
+      <div class="successMsg MsgStyle">
+        <% message.forEach(msg => { %>
+        <p><%= msg.msg %></p>
+        <% }) %>
+      </div>
+      <% } %>
+
+      <form
+        class="needs-validation col-md-6 d-flex justify-content-center flex-column"
+        action="/G_TEST_Edit"
+        method="post"
+      >
+        <!-- Full Name -->
+        <div class="form-row">
+          <div class="col-md-6 mb-3">
+            <label for="FirstName">First name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="FirstName"
+              name="FirstName"
+              placeholder="First name"
+              value="<%= user.firstName %>"
+              disabled
+            />
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="LastName">Last name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="LastName"
+              name="LastName"
+              placeholder="Last name"
+              value="<%= user.lastName %>"
+              disabled
+            />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="col-md-6 mb-3">
+            <label for="LicenseNumber">License Number</label>
+            <input
+              type="text"
+              class="form-control"
+              id="LicenseNumber"
+              name="LicenseNumber"
+              placeholder="License Number"
+              maxlength="8"
+              size="8"
+              value="<%= user.LicenseNo %>"
+              disabled
+            />
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label for="Age">Age</label>
+            <input
+              type="number"
+              class="form-control"
+              id="Age"
+              name="Age"
+              placeholder="Age"
+              min="18"
+              max="99"
+              value="<%= user.Age %>"
+              disabled
+            />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="col-md-12 mb-3">
+            <label for="DOB">DOB</label>
+            <input
+              type="date"
+              class="form-control"
+              id="DOB"
+              name="DOB"
+              placeholder="date of birth"
+              value="<%= user.DOB %>"
+              disabled
+            />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <legend class="col-form-label col-md-12 pt-0">Car details</legend>
+          <div class="col-md-12 mb-3">
+            <div class="col-md-12 mb-3 px-0">
+              <label for="ieMake"> ie make </label>
+              <input
+                class="form-control"
+                type="text"
+                name="ieMake"
+                id="ieMake"
+                placeholder="ieMake"
+                value="<%= user.car_details.make %>"
+              />
+            </div>
+            <div class="col-md-12 mb-3 px-0">
+              <label for="model">model</label>
+              <input
+                class="form-control"
+                type="text"
+                name="model"
+                id="model"
+                placeholder="model"
+                value="<%= user.car_details.model %>"
+              />
+            </div>
+            <div class="col-md-12 mb-3 px-0">
+              <label for="year">year </label>
+              <input
+                class="form-control"
+                type="number"
+                name="year"
+                id="year"
+                placeholder="year"
+                value="<%= user.car_details.year %>"
+                min="0"
+              />
+            </div>
+
+            <div class="col-md-12 mb-3 px-0">
+              <label for="platNumber">plat number</label>
+              <input
+                class="form-control"
+                type="number"
+                name="platNumber"
+                id="platNumber"
+                placeholder="plat number"
+                value="<%= user.car_details.platNo %>"
+              />
+            </div>
+          </div>
+        </div>
+
+        <input type="hidden" value="<%= user._id %>" name="userId" />
+        <button class="btn btn-primary">Submit form</button>
+      </form>
+
+      <% }%>
+    </main>
+
+    <!-- footer -->
+    <%- include('../layout/footer.ejs') %>
+    <!-- script -->
+    <%- include('../layout/end.ejs')%>
+  </body>
+</html>
