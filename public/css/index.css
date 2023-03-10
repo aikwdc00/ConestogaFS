@@ -1,6 +1,6 @@
 .MsgStyle {
   padding: 1rem 0;
-  margin: 1rem auto 3rem;
+  margin: 1rem auto;
   width: 48%;
   border-radius: 10px;
 }
@@ -18,4 +18,38 @@
 
 .successMsg {
   background-color: lightblue;
+}
+
+hr {
+  border-top: 1px solid #cccccc;
+  width: 100%;
+}
+
+.fontWeight {
+  font-weight: bold;
+}
+
+.signWrap {
+  width: 80%;
+  margin: 0 auto;
+  padding: 3rem 0;
+}
+.signBoxes {
+  flex: 1;
+  padding: 1rem 1.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid #aaaaaa;
+  margin: 2rem;
+}
+
+.signForm {
+  padding: 0;
+}
+
+.formItems {
+  padding: 0;
+  margin: 0.8rem 0;
+}
+.formItems label {
+  margin-bottom: 0.5rem;
 }

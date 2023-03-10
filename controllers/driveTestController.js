@@ -6,7 +6,3 @@ exports.getDashboard = (req, res, next) => {
 }
 
 
-// Login
-exports.getLoginPage = (req, res, next) => {
-  res.render('driveTest/Login', { pageTitle: 'LOGIN', path: '/LOGIN' })
-}

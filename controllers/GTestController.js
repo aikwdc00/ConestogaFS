@@ -1,5 +1,5 @@
 const User = require('../models/user')
-const { getMsg } = require('../Util/message')
+const { getMsg, setSingleMsg, msgObj } = require('../Util/message')
 
 
 // G Test
@@ -22,7 +22,8 @@ exports.postGTestData = (req, res, next) => {
     .then(user => {
 
       if (!user) {
-        req.flash('error', [{ msg: 'No User Found' }]);
+        // req.flash('error', [{ msg: 'No User Found' }]);
+        setSingleMsg(req, msgObj('error', 'No User Found'))
         return res.redirect('/G2_TEST');
       }
 
@@ -64,7 +65,8 @@ exports.postEditGTestData = (req, res, next) => {
       return user.save()
     })
     .then((result => {
-      req.flash('success', [{ msg: 'success Updated' }]);
+      setSingleMsg(req, msgObj('success', 'success Updated'))
+      // req.flash('success', [{ msg: 'success Updated' }]);
       res.redirect(`/G_TEST/${result._id}`)
     }))
     .catch(err => {

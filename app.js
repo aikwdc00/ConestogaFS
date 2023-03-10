@@ -1,19 +1,21 @@
 const express = require('express');
 const path = require('path');
 const app = express();
-const mongoose = require('mongoose');
+const db = require('./database')
 const session = require('express-session');
+const MongoStore = require('connect-mongo');
 const flash = require('connect-flash');
+require('dotenv').config()
 
-const port = 3000;
-const User = require('./models/user')
 const driveTestRoutes = require('./routers/driveTestRouter');
+const authRouter = require('./routers/authRouter')
 
-const MONGODB_URI =
-  'mongodb+srv://test123:Conestoga@test123.hbksyts.mongodb.net/fullStackAssignment?retryWrites=true&w=majority';
+// port
+const port = 3000;
 
-
-
+const store = new MongoStore({
+  mongoUrl: process.env.MONGODB_URI
+});
 
 // middleware
 app.set("view engine", "ejs");
@@ -27,9 +29,10 @@ app.use(flash());
 
 app.use(
   session({
-    secret: 'canada drive test',
+    secret: process.env.SECRET,
     resave: false,
     saveUninitialized: false,
+    store: store
   })
 );
 
@@ -37,28 +40,19 @@ app.use((req, res, next) => {
   if (!req.session.user) {
     return next();
   }
-  User
-    .findOne({ LicenseNo: req.session.user.LicenseNo })
-    .then(user => {
-      req.user = user;
-      next();
-    })
-    .catch(err => console.log(err));
+  req.user = req.session.user
 });
 
-
 // routers
+app.use('/auth', authRouter)
 app.use(driveTestRoutes)
 
-
-mongoose
-  .connect(MONGODB_URI)
+// run database
+db
   .then(result => {
     console.log('connected mongoose')
     app.listen(port, () => {
       console.log(`Example app listening on port ${port}`)
     })
   })
-  .catch(err => {
-    console.log(err);
-  });
+  .catch(err => console.log(err));

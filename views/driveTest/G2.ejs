@@ -42,6 +42,7 @@
               name="FirstName"
               placeholder="First name"
               value=""
+              required
             />
           </div>
           <div class="col-md-6 mb-3">
@@ -53,6 +54,7 @@
               name="LastName"
               placeholder="Last name"
               value=""
+              required
             />
           </div>
         </div>
@@ -66,8 +68,9 @@
               id="LicenseNumber"
               name="LicenseNumber"
               placeholder="License Number"
-              maxlength="8"
-              size="8"
+              maxlength="15"
+              size="15"
+              required
             />
           </div>
 
@@ -82,22 +85,6 @@
               min="18"
               max="99"
               required
-            />
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="col-md-12 mb-3">
-            <label for="DOB">DOB</label>
-            <input
-              type="date"
-              class="form-control"
-              id="DOB"
-              name="DOB"
-              placeholder="date of birth"
-              value=""
-              required
-              pattern="\d{4}-\d{2}-\d{2}"
             />
           </div>
         </div>

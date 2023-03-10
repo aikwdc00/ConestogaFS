@@ -13,8 +13,7 @@ exports.postG2TestData = (req, res, next) => {
     firstName: reqBody.FirstName,
     lastName: reqBody.LastName,
     Age: +reqBody.Age,
-    LicenseNo: +reqBody?.LicenseNumber,
-    DOB: reqBody.DOB,
+    LicenseNo: reqBody?.LicenseNumber,
     car_details: {
       make: reqBody.ieMake,
       model: reqBody.model,
@@ -28,7 +27,6 @@ exports.postG2TestData = (req, res, next) => {
       res.redirect('/')
     })
     .catch(err => {
-
       const errs = Object.keys(err.errors)
 
       let msgObg = []

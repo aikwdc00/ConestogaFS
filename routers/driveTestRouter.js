@@ -20,8 +20,4 @@ router.get('/G_TEST/:id', GTestController.getUserIdGTEST)
 router.post('/G_TEST_Edit', GTestController.postEditGTestData)
 
 
-// Login
-router.get('/LOGIN', driveTestController.getLoginPage)
-
-
 module.exports = router
