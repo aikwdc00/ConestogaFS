@@ -14,18 +14,32 @@
 
   <div class="collapse navbar-collapse py-3" id="navbarSupportedContent">
     <ul class="navbar-nav ml-auto">
+      <% if (isAuthenticated) { %>
       <li class="nav-item <%= path == '/dashboard' ?'active':'' %> px-2">
         <a class="nav-link fontWeight" href="/">DASHBOARD </a>
       </li>
+      <% if (isDriver) { %>
       <li class="nav-item <%= path == '/G2_TEST' ?'active':'' %> px-2">
         <a class="nav-link fontWeight" href="/G2_TEST">G2_TEST</a>
       </li>
       <li class="nav-item <%= path == '/G_TEST' ?'active':'' %> px-2">
         <a class="nav-link fontWeight" href="/G_TEST">G_TEST</a>
       </li>
+      <% } %>
       <li class="nav-item <%= path == '/LOGIN' ?'active':'' %> px-2">
-        <a class="nav-link fontWeight" href="/auth/LOGIN">LOGIN</a>
+        <form action="/auth/logout" method="post" class="logoutForm">
+          <button type="submit" class="logoutBtn">LOGOUT</button>
+        </form>
+        <!-- <a class="nav-link fontWeight" href="/auth/logout">LOGOUT</a> -->
       </li>
+      <% } else { %>
+      <li class="nav-item <%= path == '/dashboard' ?'active':'' %> px-2">
+        <a class="nav-link fontWeight" href="/">Home</a>
+      </li>
+      <li class="nav-item <%= path == '/LOGIN' ?'active':'' %> px-2">
+        <a class="nav-link fontWeight" href="/auth/login">LOGIN</a>
+      </li>
+      <% } %>
     </ul>
   </div>
 </nav>

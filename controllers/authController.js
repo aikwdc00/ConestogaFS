@@ -1,57 +1,126 @@
+const bcrypt = require('bcrypt');
 const User = require('../models/user')
-const { getMsg, setSingleMsg, msgObj } = require('../Util/message')
-let msgType = ''
+const { msgData, getMsg, setSingleMsg, msgObj } = require('../Util/message')
+const { emailExam } = require('../Util/pattern')
+
+const saltRounds = 12;
 
 // get Login
 exports.getLoginPage = (req, res, next) => {
-  const message = getMsg(req, msgType)
-  console.log('message', message)
-  res.render('driveTest/Login', { pageTitle: 'LOGIN', path: '/LOGIN', message })
+  const message = getMsg(req, msgData.nowMsgType)
+  res.render('auth/login', {
+    pageTitle: 'LOGIN',
+    path: '/LOGIN',
+    message,
+  })
 }
 
 // post login
-exports.postLoginHandler = (req, res, next) => {
-  const message = getMsg(req, msgType)
-  res.render('driveTest/Login', { pageTitle: 'LOGIN', path: '/LOGIN', message })
+exports.postSignInHandler = (req, res, next) => {
+  const { userName, password } = req.body
+  if (emailExam.test(userName)) {
+    setSingleMsg(req,
+      msgObj(msgData.setMsgType(msgData.error),
+        msgData.emailFormatWrong))
+    return res.redirect('/auth/login');
+  }
+
+  User.findOne({ userName })
+    .then(user => {
+      if (!user) {
+        setSingleMsg(req,
+          msgObj(msgData.setMsgType(msgData.error),
+            msgData.notFoundUser))
+        return res.redirect('/auth/login');
+      }
+
+      bcrypt
+        .compare(password, user.password)
+        .then(doMatch => {
+          if (doMatch) {
+            req.session.isLoggedIn = true;
+            req.session.user = user;
+            return req.session.save(err => {
+              console.log(err);
+
+              setSingleMsg(req,
+                msgObj(msgData.setMsgType(msgData.success),
+                  msgData.signInSuccess))
+              res.redirect('/');
+            });
+          }
+
+          setSingleMsg(req,
+            msgObj(msgData.setMsgType(msgData.error),
+              msgData.invalidInput))
+          return res.redirect('/auth/login');
+        })
+        .catch(err => {
+          // console.log(err);
+          return res.redirect('/auth/login');
+        })
+    })
 }
+
+// log out
+exports.postLogout = (req, res, next) => {
+  req.session.destroy(err => {
+    console.log(err);
+    res.redirect('/auth/login');
+  });
+};
 
 // get sign up
 exports.postSignup = (req, res, next) => {
   const { userName, password, confirmPw, userType } = req.body
-
   User.findOne({ userName })
     .then(foundUser => {
       if (foundUser) {
-        msgType = 'error'
-        setSingleMsg(req, msgObj('error', 'E-Mail exists already, please pick a different one'))
-        return res.redirect('/auth/LOGIN');
+        setSingleMsg(req,
+          msgObj(msgData.setMsgType(msgData.error),
+            msgData.emailExist))
+        return res.redirect('/auth/login');
+      }
+
+      if (emailExam.test(userName)) {
+        setSingleMsg(req,
+          msgObj(msgData.setMsgType(msgData.error),
+            msgData.emailFormatWrong))
+        return res.redirect('/auth/login');
       }
 
       if (password !== confirmPw) {
-        msgType = 'error'
-        setSingleMsg(req, msgObj('error', 'it\'s different between password and  confirm password'))
-        return res.redirect('/auth/LOGIN');
+        setSingleMsg(req,
+          msgObj(msgData.setMsgType(msgData.error),
+            msgData.pwDifference))
+        return res.redirect('/auth/login');
       }
 
-      const user = new User({
-        userName,
-        password,
-        userType,
-      })
-
-      return user.save()
-    })
-    .then(result => {
-
-      if (result) {
-        msgType = 'success'
-        setSingleMsg(req, msgObj(msgType, 'Please login your account!!'))
-        res.redirect('/auth/LOGIN');
-      }
-
+      return bcrypt
+        .hash(password, 12)
+        .then(hashedPassword => {
+          const user = new User({
+            userName,
+            password: hashedPassword,
+            userType,
+          })
+          return user.save();
+        })
+        .then(result => {
+          if (result) {
+            setSingleMsg(req,
+              msgObj(msgData.setMsgType(msgData.success),
+                msgData.signupSuccess))
+            res.redirect('/auth/login');
+          }
+        })
+        .catch(err => {
+          console.log('signup err', err);
+        });
     })
     .catch(err => {
-      console.log('err', err)
+      msgData.nowMsgType = 'error'
+      // console.log('err', err)
       const errs = Object.keys(err.errors)
 
       const msgObg = []
@@ -60,7 +129,7 @@ exports.postSignup = (req, res, next) => {
         msg: err.errors[item].properties.message
       }))
 
-      req.flash('error', msgObg);
-      return res.redirect('/auth/LOGIN');
+      req.flash(msgData.nowMsgType, msgObg);
+      return res.redirect('/auth/login');
     })
 }

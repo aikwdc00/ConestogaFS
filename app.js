@@ -7,6 +7,7 @@ const MongoStore = require('connect-mongo');
 const flash = require('connect-flash');
 require('dotenv').config()
 
+const User = require('./models/user')
 const driveTestRoutes = require('./routers/driveTestRouter');
 const authRouter = require('./routers/authRouter')
 
@@ -25,8 +26,6 @@ app.use(express.json()) // for parsing application/json
 app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 app.use(express.static(path.join(__dirname, 'public')))
 
-app.use(flash());
-
 app.use(
   session({
     secret: process.env.SECRET,
@@ -36,11 +35,28 @@ app.use(
   })
 );
 
+app.use(flash());
+
 app.use((req, res, next) => {
   if (!req.session.user) {
     return next();
   }
-  req.user = req.session.user
+
+  User.findById({ _id: req.session.user._id })
+    .then(user => {
+      req.user = user
+      next();
+    })
+    .catch(err => {
+      console.log(err)
+    })
+});
+
+app.use((req, res, next) => {
+  res.locals.isAuthenticated = req.session.isLoggedIn;
+  res.locals.isDriver = req?.user?.isDriver()
+  // res.locals.csrfToken = req.csrfToken();
+  next();
 });
 
 // routers

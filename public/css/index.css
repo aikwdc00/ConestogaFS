@@ -3,6 +3,10 @@
   margin: 1rem auto;
   width: 48%;
   border-radius: 10px;
+  position: absolute;
+  left: 50%;
+  top: 7%;
+  transform: translate(-50%, -7%);
 }
 
 .errorMsg {
@@ -52,4 +56,15 @@ hr {
 }
 .formItems label {
   margin-bottom: 0.5rem;
+}
+
+.logoutForm {
+  padding: 0.5rem 0;
+}
+.logoutBtn {
+  background-color: transparent;
+  border: 0px;
+  color: #fff;
+  font-weight: bold;
+  padding: 0;
 }

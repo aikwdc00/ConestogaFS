@@ -1,16 +1,24 @@
 const User = require('../models/user')
-const { getMsg, setSingleMsg, msgObj } = require('../Util/message')
-
+const { getMsg, setSingleMsg, msgObj, msgData } = require('../Util/message')
 
 // G Test
 exports.getGTEST = (req, res, next) => {
-  const message = getMsg(req, 'success')
+  const message = getMsg(req, msgData.nowMsgType)
+  const { firstName, lastName, LicenseNo } = req.user
+
+  if (firstName == 'default' || lastName == 'default' || LicenseNo == 'default') {
+    setSingleMsg(req,
+      msgObj(msgData.setMsgType(msgData.error),
+        msgData.incompleteData))
+    return res.redirect('/G2_TEST')
+  }
 
   res.render('driveTest/G', {
     pageTitle: 'G_TEST',
     path: '/G_TEST',
     user: null,
     message,
+    user: req.user,
   })
 
 }
@@ -37,7 +45,7 @@ exports.postGTestData = (req, res, next) => {
 
 exports.getUserIdGTEST = (req, res, next) => {
 
-  const message = getMsg(req, 'success')
+  const message = getMsg(req, msgData.nowMsgType)
 
   const id = req.params.id
   User.findById({ _id: id })
@@ -65,8 +73,10 @@ exports.postEditGTestData = (req, res, next) => {
       return user.save()
     })
     .then((result => {
-      setSingleMsg(req, msgObj('success', 'success Updated'))
-      // req.flash('success', [{ msg: 'success Updated' }]);
+      setSingleMsg(req,
+        msgObj(msgData.setMsgType(msgData.success),
+          msgData.updateSuccess))
+
       res.redirect(`/G_TEST/${result._id}`)
     }))
     .catch(err => {

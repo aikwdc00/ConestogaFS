@@ -18,13 +18,8 @@
     <main
       class="d-flex justify-content-center py-3 flex-column align-items-center"
     >
-      <% if (message) { %>
-      <div class="errorMsg MsgStyle">
-        <% message.forEach(msg => { %>
-        <p><%= msg.msg %></p>
-        <% }) %>
-      </div>
-      <% } %>
+      <!-- message -->
+      <%- include('../components/message.ejs', message) %>
 
       <form
         class="needs-validation col-md-6 d-flex justify-content-center flex-column"
@@ -41,8 +36,9 @@
               id="FirstName"
               name="FirstName"
               placeholder="First name"
-              value=""
+              value="<%= user.firstName == 'default'?'': user.firstName%>"
               required
+              disabled="<%= user.firstName == 'default'?false: true%>"
             />
           </div>
           <div class="col-md-6 mb-3">
@@ -55,12 +51,15 @@
               placeholder="Last name"
               value=""
               required
+              value="<%= user.lastName == 'default'?'': user.lastName%>"
+              disabled="<%= user.lastName == 'default'?false: true%>"
             />
           </div>
         </div>
 
         <div class="form-row">
-          <div class="col-md-6 mb-3">
+          <% if (user.LicenseNo == 'default') { %>
+          <div class="col-md-12 mb-3">
             <label for="LicenseNumber">License Number</label>
             <input
               type="text"
@@ -71,10 +70,13 @@
               maxlength="15"
               size="15"
               required
+              value="<%= user.LicenseNo == 'default'?'': user.LicenseNo%>"
+              disabled="<%= user.LicenseNo == 'default'?false: true%>"
             />
           </div>
+          <% } %>
 
-          <div class="col-md-6 mb-3">
+          <div class="col-md-12 mb-3">
             <label for="Age">Age</label>
             <input
               type="number"
@@ -85,9 +87,13 @@
               min="18"
               max="99"
               required
+              value="<%= user.Age == 'default'?'': user.Age%>"
+              disabled="<%= user.Age == 'default'?false: true%>"
             />
           </div>
         </div>
+
+        <hr />
 
         <div class="form-row">
           <legend class="col-form-label col-md-12 pt-0">Car details</legend>
@@ -100,7 +106,7 @@
                 name="ieMake"
                 id="ieMake"
                 placeholder="ieMake"
-                value=""
+                value="<%= user.car_details.make == 'default'?'': user.car_details.make %>"
               />
             </div>
             <div class="col-md-12 mb-3 px-0">
@@ -111,7 +117,7 @@
                 name="model"
                 id="model"
                 placeholder="model"
-                value=""
+                value="<%= user.car_details.model == 'default'?'': user.car_details.model%>"
               />
             </div>
             <div class="col-md-12 mb-3 px-0">
@@ -122,10 +128,10 @@
                 name="year"
                 id="year"
                 placeholder="year"
-                value=""
                 min="0"
                 minlength="4"
                 maxlength="4"
+                value="<%= user.car_details.year == 'default'?'': user.car_details.year%>"
               />
             </div>
 
@@ -133,16 +139,17 @@
               <label for="platNumber">plat number</label>
               <input
                 class="form-control"
-                type="number"
+                type="platNo"
                 name="platNumber"
                 id="platNumber"
                 placeholder="plat number"
-                value=""
+                value="<%= user.car_details.platNo == 'default'?'': user.car_details.platNo%>"
               />
             </div>
           </div>
         </div>
 
+        <input type="hidden" value="<%= user._id %>" name="userId" />
         <button class="btn btn-primary">Submit form</button>
       </form>
     </main>

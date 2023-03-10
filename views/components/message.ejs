@@ -1,0 +1,5 @@
+<% if (message) { %> <% message.forEach(msg=> { %>
+<div class="<%= msg.type == 'success'?'successMsg':'errorMsg' %> MsgStyle">
+  <p><%= msg.msg %></p>
+</div>
+<% }) %> <% } %>

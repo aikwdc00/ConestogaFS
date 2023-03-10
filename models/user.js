@@ -1,7 +1,4 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
-const saltRounds = 12;
-
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
@@ -9,13 +6,11 @@ const userSchema = new Schema({
     type: String,
     trim: true,
     required: [true, 'Enter your User Name']
-    // required: true,
   },
   password: {
     type: String,
     trim: true,
     required: [true, 'Enter your password']
-    // required: true,
   },
   userType: {
     type: String,
@@ -45,13 +40,14 @@ const userSchema = new Schema({
   LicenseNo: {
     type: String,
     trim: true,
-    validate: {
-      validator: function (v) {
-        console.log('v', v)
-        return /^[A-Z]{1}[0-9]{8,14}$/.test(v);
-      },
-      message: props => `${props.value} is a invalid LicenseNo`
-    },
+    // validate: {
+    //   validator: function (v) {
+    //     console.log('v', v)
+    //     return /^[A-Z]{1}[0-9]{8,14}$/.test(v);
+    //   },
+    //   message: props => `${props.value} is a invalid LicenseNo`
+    // },
+    default: 'default'
   },
   car_details: {
     make: {
@@ -66,38 +62,38 @@ const userSchema = new Schema({
       type: Number,
       minLength: 0,
       maxLength: 4,
-      default: '0',
+      default: 0,
     },
     platNo: {
       type: String,
       default: 'default',
     },
   }
-});
+}, { timestamps: true, });
 
 userSchema.methods.isDriver = function () {
-  return this.UserType == "Driver";
+  return this.userType == "Driver";
 };
 
 userSchema.methods.isExaminer = function () {
-  return this.UserType == "Examiner";
+  return this.userType == "Examiner";
 };
 
 userSchema.methods.isAdmin = function () {
-  return this.UserType == "Admin";
+  return this.userType == "Admin";
 };
 
-userSchema.pre('save', async function (next) { // pre-method, before saving to database
+// userSchema.pre('save', async function (next) { // pre-method, before saving to database
+//   console.log('this', this)
+//   const pwHash = await bcrypt.hash(this.password, saltRounds)
+//   this.password = pwHash
 
-  const pwHash = await bcrypt.hash(this.password, saltRounds)
-  this.password = pwHash
+//   if (this.LicenseNo == 'L00000000') {
+//     const licenseNoHash = await bcrypt.hash(this.LicenseNo, saltRounds);
+//     this.LicenseNo = licenseNoHash
+//   }
 
-  if (this.LicenseNo) {
-    const licenseNoHash = await bcrypt.hash(this.LicenseNo, saltRounds);
-    this.LicenseNo = licenseNoHash
-  }
-
-  next()
-});
+//   next()
+// });
 
 module.exports = mongoose.model('User', userSchema);

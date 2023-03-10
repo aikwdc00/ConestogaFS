@@ -1,10 +1,29 @@
 const User = require('../models/user')
-const { getMsg } = require('../Util/message')
+const bcrypt = require('bcrypt');
+const saltRounds = 12;
+const { getMsg, setSingleMsg, msgObj, msgData } = require('../Util/message')
+const pattern = require('../Util/pattern')
 
 // G2 Test
 exports.getG2TEST = (req, res, next) => {
-  const message = getMsg(req, 'error')
-  res.render('driveTest/G2', { pageTitle: 'G2_TEST', path: '/G2_TEST', message })
+  const message = getMsg(req, msgData.nowMsgType)
+  const user = req.user
+  const { firstName, lastName, LicenseNo } = req.user
+
+  // if (firstName !== 'default' && lastName !== 'default' && LicenseNo != 'default') {
+
+  //   setSingleMsg(req,
+  //     msgObj(msgData.setMsgType(msgData.error),
+  //       msgData.alreadyCompleteData))
+  //   return res.redirect('/G_TEST')
+  // }
+
+  res.render('driveTest/G2', {
+    pageTitle: 'G2_TEST',
+    path: '/G2_TEST',
+    message,
+    user,
+  })
 }
 
 exports.postG2TestData = (req, res, next) => {
@@ -37,5 +56,48 @@ exports.postG2TestData = (req, res, next) => {
 
       req.flash('error', msgObg);
       return res.redirect('/G2_TEST');
+    })
+}
+
+exports.postG2TestEditData = (req, res, next) => {
+  const { FirstName, LastName, Age, LicenseNumber, ieMake, model, year, platNumber, userId } = req.body
+
+  if (!pattern.licenseNoExam.test(LicenseNumber)) {
+    setSingleMsg(req,
+      msgObj(msgData.setMsgType(msgData.error),
+        `${LicenseNumber} is a invalid LicenseNo`))
+    return res.redirect(`/G2_TEST`)
+  }
+
+  User.findById(userId)
+    .then((user) => {
+
+      return bcrypt
+        .hash(LicenseNumber, saltRounds)
+        .then(hashedLicenseNumber => {
+          user.firstName = FirstName
+          user.lastName = LastName
+          user.Age = +Age
+          user.LicenseNo = hashedLicenseNumber
+          user.car_details.make = ieMake
+          user.car_details.model = model
+          user.car_details.year = year
+          user.car_details.platNo = platNumber
+
+          return user.save();
+        })
+        .then((result => {
+
+          setSingleMsg(req,
+            msgObj(msgData.setMsgType(msgData.success),
+              msgData.updateSuccess))
+          res.redirect(`/G_TEST/${result._id}`)
+        }))
+        .catch(err => {
+          console.log('complete information err', err);
+        });
+    })
+    .catch(err => {
+      console.log(err)
     })
 }
