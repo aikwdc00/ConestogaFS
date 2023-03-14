@@ -18,7 +18,7 @@ exports.getLoginPage = (req, res, next) => {
 // post login
 exports.postSignInHandler = (req, res, next) => {
   const { userName, password } = req.body
-  if (emailExam.test(userName)) {
+  if (!emailExam.test(userName)) {
     setSingleMsg(req,
       msgObj(msgData.setMsgType(msgData.error),
         msgData.emailFormatWrong))
@@ -82,7 +82,7 @@ exports.postSignup = (req, res, next) => {
         return res.redirect('/auth/login');
       }
 
-      if (emailExam.test(userName)) {
+      if (!emailExam.test(userName)) {
         setSingleMsg(req,
           msgObj(msgData.setMsgType(msgData.error),
             msgData.emailFormatWrong))
