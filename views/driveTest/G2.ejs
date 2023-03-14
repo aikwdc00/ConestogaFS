@@ -30,30 +30,17 @@
         <div class="form-row">
           <div class="col-md-6 mb-3">
             <label for="FirstName">First name</label>
-            <input
-              type="text"
-              class="form-control"
-              id="FirstName"
-              name="FirstName"
-              placeholder="First name"
-              value="<%= user.firstName == 'default'?'': user.firstName%>"
-              required
-              disabled="<%= user.firstName == 'default'?false: true%>"
-            />
+            <input type="text" class="form-control" id="FirstName"
+            name="FirstName" placeholder="First name" value="<%= user.firstName
+            == 'default' ? '': user.firstName%>" required <%= user.firstName ==
+            'default' ? '' : "disabled" %> />
           </div>
           <div class="col-md-6 mb-3">
             <label for="LastName">Last name</label>
-            <input
-              type="text"
-              class="form-control"
-              id="LastName"
-              name="LastName"
-              placeholder="Last name"
-              value=""
-              required
-              value="<%= user.lastName == 'default'?'': user.lastName%>"
-              disabled="<%= user.lastName == 'default'?false: true%>"
-            />
+            <input type="text" class="form-control" id="LastName"
+            name="LastName" placeholder="Last name" value="" required value="<%=
+            user.lastName == 'default'?'': user.lastName%>" <%= user.lastName ==
+            'default' ? '' : "disabled" %> />
           </div>
         </div>
 
@@ -61,35 +48,20 @@
           <% if (user.LicenseNo == 'default') { %>
           <div class="col-md-12 mb-3">
             <label for="LicenseNumber">License Number</label>
-            <input
-              type="text"
-              class="form-control"
-              id="LicenseNumber"
-              name="LicenseNumber"
-              placeholder="License Number"
-              maxlength="15"
-              size="15"
-              required
-              value="<%= user.LicenseNo == 'default'?'': user.LicenseNo%>"
-              disabled="<%= user.LicenseNo == 'default'?false: true%>"
-            />
+            <input type="text" class="form-control" id="LicenseNumber"
+            name="LicenseNumber" placeholder="License Number" maxlength="15"
+            size="15" required value="<%= user.LicenseNo == 'default'?'':
+            user.LicenseNo%>" <%= user.LicenseNo == 'default' ? '' : "disabled"
+            %> />
           </div>
           <% } %>
 
           <div class="col-md-12 mb-3">
             <label for="Age">Age</label>
-            <input
-              type="number"
-              class="form-control"
-              id="Age"
-              name="Age"
-              placeholder="Age"
-              min="18"
-              max="99"
-              required
-              value="<%= user.Age == 'default'?'': user.Age%>"
-              disabled="<%= user.Age == 'default'?false: true%>"
-            />
+            <input type="number" class="form-control" id="Age" name="Age"
+            placeholder="Age" min="18" max="99" value="<%= user.Age ==
+            'default'?'': user.Age%>" required <%= user.LicenseNo == 'default' ?
+            null : "disabled" %> />
           </div>
         </div>
 
