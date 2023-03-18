@@ -18,15 +18,38 @@
       </div>
     </header>
 
-    <main>
-      <div class="jumbotron justify-content-center bg-white">
-        <h1 class="text-center font-weight-bold">
-          You can book G2/G drive test from this Kiosk
-        </h1>
-        <p class="lead text-center font-weight-bold">
-          You can book G2/G drive test from this Kiosk
-        </p>
-      </div>
+    <main
+      class="d-flex justify-content-center py-5 flex-column align-items-center"
+    >
+      <form
+        class="needs-validation col-4 d-flex justify-content-center flex-column signForm"
+        action="/postAppoint"
+        method="post"
+      >
+        <div class="col-12 formItems">
+          <label for="confirmPw">Appointment Date</label>
+          <input
+            type="date"
+            class="form-control"
+            name="date"
+            id="appointDate"
+          />
+        </div>
+
+        <div class="col-12 formItems">
+          <label for="confirmPw">Appointment slots</label>
+          <select
+            class="form-control"
+            aria-label="Default select example"
+            name="time"
+            id="appointSlots"
+          >
+            <!-- render by js -->
+          </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary my-3">Submit</button>
+      </form>
     </main>
 
     <!-- footer -->

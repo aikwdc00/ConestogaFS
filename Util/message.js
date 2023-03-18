@@ -11,11 +11,10 @@ exports.msgData = {
   signInSuccess: 'Sign in success!!',
   incompleteData: 'Please complete all information on G2 page!!',
   alreadyCompleteData: 'Already done all Data, you can update your data on this page!!',
-  updateSuccess: 'success Updated',
+  updateSuccess: 'Success Updated',
+  bookingSuccess: 'Booking success!!',
   setMsgType(val) {
-    console.log('setMsgType', val)
     return this.nowMsgType = val
-    console.log('this.nowMsgType', this.nowMsgType)
   }
 }
 
