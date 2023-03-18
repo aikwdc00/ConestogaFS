@@ -3,8 +3,9 @@ const router = express.Router()
 const driveTestController = require('../controllers/driveTestController')
 const G2TestController = require('../controllers/G2TestController')
 const GTestController = require('../controllers/GTestController')
+const appointmentController = require('../controllers/appointmentController')
 const isAuth = require('../middleware/is-auth')
-const isDriver = require('../middleware/is-driver')
+const { isDriver, isAdmin } = require('../middleware/identify')
 
 // Dashboard
 router.get('/', driveTestController.getDashboard)
@@ -22,5 +23,8 @@ router.post('/G_TEST', isAuth, isDriver, GTestController.postGTestData)
 router.get('/G_TEST/:id', isAuth, isDriver, GTestController.getUserIdGTEST)
 router.post('/G_TEST_Edit', isAuth, isDriver, GTestController.postEditGTestData)
 
+
+// appointment
+router.get('/appointment', isAuth, isAdmin, appointmentController.getAppointmentPage)
 
 module.exports = router

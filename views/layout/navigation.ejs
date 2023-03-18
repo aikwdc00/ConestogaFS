@@ -18,12 +18,16 @@
       <li class="nav-item <%= path == '/dashboard' ?'active':'' %> px-2">
         <a class="nav-link fontWeight" href="/">DASHBOARD </a>
       </li>
-      <% if (isDriver) { %>
+      <% if (userType == 'Driver') { %>
       <li class="nav-item <%= path == '/G2_TEST' ?'active':'' %> px-2">
         <a class="nav-link fontWeight" href="/G2_TEST">G2_TEST</a>
       </li>
       <li class="nav-item <%= path == '/G_TEST' ?'active':'' %> px-2">
         <a class="nav-link fontWeight" href="/G_TEST">G_TEST</a>
+      </li>
+      <% } %> <% if (userType == 'Admin') { %>
+      <li class="nav-item <%= path == '/appointment' ?'active':'' %> px-2">
+        <a class="nav-link fontWeight" href="/appointment">APPOINTMENT</a>
       </li>
       <% } %>
       <li class="nav-item <%= path == '/LOGIN' ?'active':'' %> px-2">

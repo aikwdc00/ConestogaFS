@@ -6,5 +6,3 @@ exports.getDashboard = (req, res, next) => {
   const message = getMsg(req, msgData.nowMsgType)
   res.render('driveTest/dashboard', { pageTitle: 'Dashboard', path: '/dashboard', message })
 }
-
-

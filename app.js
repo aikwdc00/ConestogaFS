@@ -57,7 +57,7 @@ app.use((req, res, next) => {
 
 app.use((req, res, next) => {
   res.locals.isAuthenticated = req.session.isLoggedIn;
-  res.locals.isDriver = req?.user?.isDriver()
+  res.locals.userType = req?.user?.userType
   // res.locals.csrfToken = req.csrfToken();
   next();
 });
