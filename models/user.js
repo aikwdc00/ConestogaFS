@@ -21,13 +21,30 @@ const userSchema = new Schema({
     type: String,
     trim: true,
     default: 'default',
-    // required: [true, 'Enter your First Name']
+    // required: [true,'Enter your First Name']
+    validate: {
+      validator: function (v) {
+        if (!this.userName) return
+        return /^[A-Za-z]{3,14}$/.test(v);
+      },
+      message: props => 'Enter your First Name'
+    },
   },
   lastName: {
     type: String,
     trim: true,
     default: 'default',
     // required: [true, 'Enter your Last Name']
+    // required: () => {
+    //   if (this.userName) return true
+    // },
+    validate: {
+      validator: function (v) {
+        if (!this.userName) return
+        return /^[A-Za-z]{3,14}$/.test(v);
+      },
+      message: props => 'Enter your Last Name'
+    },
   },
   Age: {
     type: Number,
@@ -42,6 +59,7 @@ const userSchema = new Schema({
     trim: true,
     // validate: {
     //   validator: function (v) {
+    //     if (this.LicenseNo == 'default') return
     //     console.log('v', v)
     //     return /^[A-Z]{1}[0-9]{8,14}$/.test(v);
     //   },

@@ -1,5 +1,9 @@
-<% if (message) { %> <% message.forEach(msg=> { %>
-<div class="<%= msg.type == 'success'?'successMsg':'errorMsg' %> MsgStyle">
-  <p><%= msg.msg %></p>
+<% if (message) { %>
+<div class="MsgStyle">
+  <% message.forEach(msg=> { %>
+  <div class="<%= msg.type == 'success'?'successMsg':'errorMsg' %> msgBoxes">
+    <p><%= msg.msg %></p>
+  </div>
+  <% }) %>
 </div>
-<% }) %> <% } %>
+<% } %>

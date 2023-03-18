@@ -97,7 +97,7 @@ exports.postSignup = (req, res, next) => {
       }
 
       return bcrypt
-        .hash(password, 12)
+        .hash(password, saltRounds)
         .then(hashedPassword => {
           const user = new User({
             userName,
@@ -115,7 +115,7 @@ exports.postSignup = (req, res, next) => {
           }
         })
         .catch(err => {
-          console.log('signup err', err);
+          console.log('signup save err', err);
         });
     })
     .catch(err => {

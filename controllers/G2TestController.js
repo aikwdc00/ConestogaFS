@@ -1,7 +1,7 @@
 const User = require('../models/user')
 const bcrypt = require('bcrypt');
 const saltRounds = 12;
-const { getMsg, setSingleMsg, msgObj, msgData } = require('../Util/message')
+const { getMsg, setSingleMsg, msgObj, msgData, multipleMsg } = require('../Util/message')
 const pattern = require('../Util/pattern')
 
 // G2 Test
@@ -18,6 +18,7 @@ exports.getG2TEST = (req, res, next) => {
   //   return res.redirect('/G_TEST')
   // }
 
+  console.log('message', message)
   res.render('driveTest/G2', {
     pageTitle: 'G2_TEST',
     path: '/G2_TEST',
@@ -94,10 +95,10 @@ exports.postG2TestEditData = (req, res, next) => {
           res.redirect(`/G_TEST/${result._id}`)
         }))
         .catch(err => {
-          console.log('complete information err', err);
+          multipleMsg(req, res, err)
         });
     })
     .catch(err => {
-      console.log(err)
+      multipleMsg(req, res, err)
     })
 }

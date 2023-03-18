@@ -32,13 +32,13 @@
             <label for="FirstName">First name</label>
             <input type="text" class="form-control" id="FirstName"
             name="FirstName" placeholder="First name" value="<%= user.firstName
-            == 'default' ? '': user.firstName%>" required <%= user.firstName ==
-            'default' ? '' : "disabled" %> />
+            == 'default' ? '': user.firstName%>" <%= user.firstName == 'default'
+            ? '' : "disabled" %> />
           </div>
           <div class="col-md-6 mb-3">
             <label for="LastName">Last name</label>
             <input type="text" class="form-control" id="LastName"
-            name="LastName" placeholder="Last name" value="" required value="<%=
+            name="LastName" placeholder="Last name" value="" value="<%=
             user.lastName == 'default'?'': user.lastName%>" <%= user.lastName ==
             'default' ? '' : "disabled" %> />
           </div>
@@ -50,7 +50,7 @@
             <label for="LicenseNumber">License Number</label>
             <input type="text" class="form-control" id="LicenseNumber"
             name="LicenseNumber" placeholder="License Number" maxlength="15"
-            size="15" required value="<%= user.LicenseNo == 'default'?'':
+            size="15" value="<%= user.LicenseNo == 'default'?'':
             user.LicenseNo%>" <%= user.LicenseNo == 'default' ? '' : "disabled"
             %> />
           </div>
