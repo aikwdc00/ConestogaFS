@@ -1,4 +1,7 @@
+const getAppointments = $('#appointments').val()
+const addedAppointment = getAppointments && JSON.parse(getAppointments) || []
 
+console.log('addedAppointment', addedAppointment)
 // create a array of time
 function getTimeStops(start, end) {
   const startTime = moment(start, 'HH:mm');
@@ -16,6 +19,7 @@ function getTimeStops(start, end) {
   }
   return timeStops;
 }
+
 // format time
 const timeFormat = (time) => {
   const getHour = time.split(':')
@@ -39,15 +43,8 @@ const timeFormat = (time) => {
 
 
 $(document).ready(function () {
-
-  const timeStops = getTimeStops('09:00', '14:00');
-
-  if (Array.isArray(timeStops) && timeStops.length) {
-    let time = ''
-    timeStops.map(item => time += `<option value='${timeFormat(item)}'>${timeFormat(item)}</option>`)
-
-    $('#appointSlots').append(time)
-  }
-
-
+  // appointment
+  appointmentHandler.appointInitialHandler()
+  // g2 page
+  g2Handler.setDatePickerDefault();
 });

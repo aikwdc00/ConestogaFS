@@ -1,15 +1,17 @@
 const User = require('../models/user')
+const Appointment = require('../models/appointment')
 const bcrypt = require('bcrypt');
 const saltRounds = 12;
 const { getMsg, setSingleMsg, msgObj, msgData, multipleMsg } = require('../Util/message')
 const pattern = require('../Util/pattern')
+const { setDatesToString } = require('../Util/appointmentFn')
 
 // G2 Test
 exports.getG2TEST = (req, res, next) => {
   const message = getMsg(req, msgData.nowMsgType)
   const user = req.user
-  const { firstName, lastName, LicenseNo } = req.user
 
+  // const { firstName, lastName, LicenseNo } = req.user
   // if (firstName !== 'default' && lastName !== 'default' && LicenseNo != 'default') {
 
   //   setSingleMsg(req,
@@ -18,13 +20,23 @@ exports.getG2TEST = (req, res, next) => {
   //   return res.redirect('/G_TEST')
   // }
 
-  console.log('message', message)
-  res.render('driveTest/G2', {
-    pageTitle: 'G2_TEST',
-    path: '/G2_TEST',
-    message,
-    user,
-  })
+  Appointment
+    .find()
+    .then((appsResult) => {
+
+      const appointments = setDatesToString(appsResult)
+
+      console.log('appointments', appointments)
+      res.render('driveTest/G2', {
+        pageTitle: 'G2_TEST',
+        path: '/G2_TEST',
+        message,
+        user,
+        appointments,
+      })
+    })
+    .catch(err => console.log('err', err))
+
 }
 
 exports.postG2TestData = (req, res, next) => {
@@ -61,6 +73,8 @@ exports.postG2TestData = (req, res, next) => {
 }
 
 exports.postG2TestEditData = (req, res, next) => {
+  console.log('req.body', req.body)
+  return
   const { FirstName, LastName, Age, LicenseNumber, ieMake, model, year, platNumber, userId } = req.body
 
   if (!pattern.licenseNoExam.test(LicenseNumber)) {

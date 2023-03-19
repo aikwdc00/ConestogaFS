@@ -11,7 +11,15 @@ const appointSchema = new Schema({
       time: {
         type: String,
         trim: true,
-      }
+      },
+      isTimeSlotAvailable: {
+        type: Boolean,
+        default: true,
+      },
+      userId: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+      },
     }
   ]
 },

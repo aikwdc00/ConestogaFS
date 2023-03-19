@@ -13,6 +13,8 @@ exports.msgData = {
   alreadyCompleteData: 'Already done all Data, you can update your data on this page!!',
   updateSuccess: 'Success Updated',
   bookingSuccess: 'Booking success!!',
+  bookingFailed: 'Booking failed, please choose other time!!',
+  bookDateUndefined: 'Please choose a booking date!!',
   setMsgType(val) {
     return this.nowMsgType = val
   }

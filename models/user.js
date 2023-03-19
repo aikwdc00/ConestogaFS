@@ -35,9 +35,6 @@ const userSchema = new Schema({
     trim: true,
     default: 'default',
     // required: [true, 'Enter your Last Name']
-    // required: () => {
-    //   if (this.userName) return true
-    // },
     validate: {
       validator: function (v) {
         if (!this.userName) return
@@ -66,6 +63,10 @@ const userSchema = new Schema({
     //   message: props => `${props.value} is a invalid LicenseNo`
     // },
     default: 'default'
+  },
+  appointmentId: {
+    type: Schema.Types.ObjectId,
+    ref: 'Appointment'
   },
   car_details: {
     make: {
@@ -100,18 +101,5 @@ userSchema.methods.isExaminer = function () {
 userSchema.methods.isAdmin = function () {
   return this.userType == "Admin";
 };
-
-// userSchema.pre('save', async function (next) { // pre-method, before saving to database
-//   console.log('this', this)
-//   const pwHash = await bcrypt.hash(this.password, saltRounds)
-//   this.password = pwHash
-
-//   if (this.LicenseNo == 'L00000000') {
-//     const licenseNoHash = await bcrypt.hash(this.LicenseNo, saltRounds);
-//     this.LicenseNo = licenseNoHash
-//   }
-
-//   next()
-// });
 
 module.exports = mongoose.model('User', userSchema);

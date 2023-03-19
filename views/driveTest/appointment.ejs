@@ -37,6 +37,7 @@
         </div>
 
         <div class="col-12 formItems">
+          <input type="hidden" value="<%= appointments %>" id="appointments" />
           <label for="confirmPw">Appointment slots</label>
           <select
             class="form-control"
@@ -45,10 +46,23 @@
             id="appointSlots"
           >
             <!-- render by js -->
+            <!-- <option value="09:00 AM">09:00 AM</option>
+            <option value="09:30 AM">09:30 AM</option>
+            <option value="10:00 AM">10:00 AM</option>
+            <option value="10:30 AM">10:30 AM</option>
+            <option value="11:00 AM">11:00 AM</option>
+            <option value="11:30 AM">11:30 AM</option>
+            <option value="12:00 PM">12:00 PM</option>
+            <option value="12:30 PM">12:30 PM</option>
+            <option value="1:00 PM">1:00 PM</option>
+            <option value="1:30 PM">1:30 PM</option>
+            <option value="2:00 PM">2:00 PM</option> -->
           </select>
         </div>
 
-        <button type="submit" class="btn btn-primary my-3">Submit</button>
+        <button type="submit" class="btn btn-primary my-3 appointmentBtn">
+          Submit
+        </button>
       </form>
     </main>
 
