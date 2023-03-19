@@ -20,13 +20,21 @@ exports.getG2TEST = (req, res, next) => {
   //   return res.redirect('/G_TEST')
   // }
 
+  // User.findById(user._id)
+  //   .populate('appointmentsData.appointmentId')
+  //   .then(foundUser => {
+  //     console.log('foundUser', foundUser.appointmentsData)
+  //   })
+  //   .catch(err => console.log('err', err))
+
   Appointment
     .find()
+    .populate('userId')
     .then((appsResult) => {
 
+      console.log('appsResult', appsResult)
       const appointments = setDatesToString(appsResult)
 
-      console.log('appointments', appointments)
       res.render('driveTest/G2', {
         pageTitle: 'G2_TEST',
         path: '/G2_TEST',
@@ -73,11 +81,11 @@ exports.postG2TestData = (req, res, next) => {
 }
 
 exports.postG2TestEditData = (req, res, next) => {
-  console.log('req.body', req.body)
-  return
-  const { FirstName, LastName, Age, LicenseNumber, ieMake, model, year, platNumber, userId } = req.body
+  // console.log('req.body', req.body)
+  // return
+  const { FirstName, LastName, Age, LicenseNumber, ieMake, model, year, platNumber, userId, date, time } = req.body
 
-  if (!pattern.licenseNoExam.test(LicenseNumber)) {
+  if (!pattern.licenseNoExam.test(LicenseNumber) && req.user.LicenseNo === 'default') {
     setSingleMsg(req,
       msgObj(msgData.setMsgType(msgData.error),
         `${LicenseNumber} is a invalid LicenseNo`))
@@ -86,31 +94,33 @@ exports.postG2TestEditData = (req, res, next) => {
 
   User.findById(userId)
     .then((user) => {
+      return req.user.storeData(req.body, req, res)
+    })
+    .then(result => {
 
-      return bcrypt
-        .hash(LicenseNumber, saltRounds)
-        .then(hashedLicenseNumber => {
-          user.firstName = FirstName
-          user.lastName = LastName
-          user.Age = +Age
-          user.LicenseNo = hashedLicenseNumber
-          user.car_details.make = ieMake
-          user.car_details.model = model
-          user.car_details.year = year
-          user.car_details.platNo = platNumber
+      if (req.body?.time) {
+        Appointment.findById({ _id: time })
+          .then((app) => {
+            app.isTimeSlotAvailable = false
+            app.userId = userId;
+            return app.save()
+          })
+          .then(result => {
+            if (result) {
+              setSingleMsg(req,
+                msgObj(msgData.setMsgType(msgData.success),
+                  msgData.updateSuccess))
+              res.redirect(`/G2_TEST`)
+            }
+          })
+          .catch(err => console.log('err'))
+      } else {
+        setSingleMsg(req,
+          msgObj(msgData.setMsgType(msgData.success),
+            msgData.updateSuccess))
+        res.redirect(`/G2_TEST`)
+      }
 
-          return user.save();
-        })
-        .then((result => {
-
-          setSingleMsg(req,
-            msgObj(msgData.setMsgType(msgData.success),
-              msgData.updateSuccess))
-          res.redirect(`/G_TEST/${result._id}`)
-        }))
-        .catch(err => {
-          multipleMsg(req, res, err)
-        });
     })
     .catch(err => {
       multipleMsg(req, res, err)

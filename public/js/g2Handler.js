@@ -39,7 +39,7 @@ const g2Handler = {
         if (!item.isTimeSlotAvailable) return
         if (item.date == this.chooseDate) {
           time += `
-          <option value='${item.time}'>${item.time}</option>
+          <option value='${item._id}'>${item.time}</option>
           `
         }
       })

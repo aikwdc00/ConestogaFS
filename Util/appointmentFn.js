@@ -5,7 +5,7 @@ function disabledTime(appointments, time) {
 
 function setDatesToString(appointment) {
   // set appointments array to json string
-  return appointment.length && JSON.stringify(appointment[0]?.appointments)
+  return appointment.length && JSON.stringify(appointment)
 }
 
 module.exports = {
