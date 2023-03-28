@@ -70,8 +70,12 @@ app.use(driveTestRoutes)
 db
   .then(result => {
     console.log('connected mongoose')
-    app.listen(port, () => {
+    app.listen(port, (err) => {
+      if (err) {
+        console.log('connect err', err)
+        return
+      }
       console.log(`Example app listening on port ${port}`)
     })
   })
-  .catch(err => console.log(err));
+  .catch(err => console.log('err', err));

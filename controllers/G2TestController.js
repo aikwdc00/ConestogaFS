@@ -34,12 +34,14 @@ exports.getG2TEST = (req, res, next) => {
 
       console.log('appsResult', appsResult)
       const appointments = setDatesToString(appsResult)
-
+      const filterData = appsResult.filter(item => item?.userId?._id.valueOf() == user._id)
+      // console.log('filterData', filterData)
       res.render('driveTest/G2', {
         pageTitle: 'G2_TEST',
         path: '/G2_TEST',
         message,
         user,
+        filterData,
         appointments,
       })
     })
