@@ -29,7 +29,17 @@
       <li class="nav-item <%= path == '/appointment' ?'active':'' %> px-2">
         <a class="nav-link fontWeight" href="/appointment">APPOINTMENT</a>
       </li>
+      <li class="nav-item <%= path == '/adminView' ?'active':'' %> px-2">
+        <a class="nav-link fontWeight" href="/adminView">Admin</a>
+      </li>
+      <% } %> <% if (userType == 'Examiner') { %>
+      <li class="nav-item <%= path == '/examinerPage' ?'active':'' %> px-2">
+        <a class="nav-link fontWeight" href="/examiner/AccessExaminerPage"
+          >Exam</a
+        >
+      </li>
       <% } %>
+
       <li class="nav-item <%= path == '/LOGIN' ?'active':'' %> px-2">
         <form action="/auth/logout" method="post" class="logoutForm">
           <button type="submit" class="logoutBtn">LOGOUT</button>

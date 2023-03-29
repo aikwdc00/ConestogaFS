@@ -10,6 +10,7 @@ require('dotenv').config()
 const User = require('./models/user')
 const driveTestRoutes = require('./routers/driveTestRouter');
 const authRouter = require('./routers/authRouter')
+const examinerRouter = require('./routers/examinerRouter')
 
 // port
 const port = 3000;
@@ -64,6 +65,7 @@ app.use((req, res, next) => {
 
 // routers
 app.use('/auth', authRouter)
+app.use('/examiner', examinerRouter)
 app.use(driveTestRoutes)
 
 // run database

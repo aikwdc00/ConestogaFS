@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('../layout/head.ejs') %>
+
+  <body>
+    <!-- navigation -->
+    <%- include('../layout/navigation.ejs') %>
+
+    <!-- message -->
+    <%- include('../components/message.ejs', message) %>
+
+    <header>
+      <div class="jumbotron justify-content-center bg-dark">
+        <h1 class="display-4 text-center text-white font-weight-bold">
+          <%= pageTitle %>
+        </h1>
+        <p class="lead text-center text-white-50">DriveTest Booking Kiosk</p>
+      </div>
+    </header>
+
+    <main class="p-5">
+      <!-- render appointments data -->
+      <% if (filterData.length) { %>
+
+      <div class="list-group">
+        <% filterData.forEach(item=> { %> <% if (item?.userId?.userType ==
+        'Driver') { %>
+
+        <div class="list-group-item list-group-item-action">
+          <form
+            class="needs-validation col-12 d-flex justify-content-center flex-column"
+          >
+            <div class="form-row">
+              <div class="col-3 mb-3">
+                <label for="FirstName">First name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="FirstName"
+                  name="FirstName"
+                  placeholder="First name"
+                  value="<%= item?.userId?.firstName  %>"
+                  disabled
+                />
+              </div>
+              <div class="col-3 mb-3">
+                <label for="LastName">Last name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="LastName"
+                  name="LastName"
+                  placeholder="Last name"
+                  value="<%= item?.userId?.lastName %>"
+                  disabled
+                />
+              </div>
+
+              <div class="col-3 mb-3">
+                <label for="testType">Test Type</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="testType"
+                  name="Test Type"
+                  placeholder="Test Type"
+                  value="<%= item?.userId?.testResult?.testType %>"
+                  disabled
+                />
+              </div>
+
+              <div class="col-3 mb-3">
+                <label for="testResult">Test Result</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="testResult"
+                  name="Test Result"
+                  placeholder="Test Result"
+                  value="<%=  item?.userId?.testResult?.isPassed ?'Passed':'Failed' %>"
+                  disabled
+                />
+              </div>
+            </div>
+
+          </form>
+        </div>
+
+        <% } %> <% }) %>
+      </div>
+
+      <% } %>
+    </main
+
+    <!-- footer -->
+    <%- include('../layout/footer.ejs') %>
+    <!-- script -->
+    <%- include('../layout/end.ejs')%>
+  </body>
+</html>

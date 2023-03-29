@@ -6,45 +6,16 @@
     <!-- navigation -->
     <%- include('../layout/navigation.ejs') %>
 
-    <header>
-      <div class="jumbotron justify-content-center bg-dark">
-        <h1 class="display-4 text-center text-white font-weight-bold">
-          <%= pageTitle %>
-        </h1>
-        <p class="lead text-center text-white-50">Get a full G license.</p>
-      </div>
-    </header>
+    <!-- message -->
+    <%- include('../components/message.ejs', message) %>
 
     <main
-      class="d-flex justify-content-center py-5 flex-column align-items-center"
+      class="d-flex justify-content-center p-5 flex-column align-items-center"
     >
-      <!-- <form class="needs-validation col-md-6" action="/G_TEST" method="post">
-        <div class="form-row mb-5">
-          <div class="col-md-12 mb-3">
-            <label for="LicenseNumber">License Number</label>
-            <input
-              type="text"
-              class="form-control"
-              id="LicenseNumber"
-              name="LicenseNumber"
-              placeholder="License Number"
-              maxlength="15"
-              size="15"
-              required
-            />
-          </div>
-          <button class="btn btn-primary w-100">Submit form</button>
-        </div>
-      </form> -->
-
-      <% if (user) { %>
-
-      <!-- message -->
-      <%- include('../components/message.ejs', message) %>
-
+      <h1 class="mt-3 mb-5">Driver Information</h1>
       <form
         class="needs-validation col-md-6 d-flex justify-content-center flex-column"
-        action="/G_TEST_Edit"
+        action="/examiner/examinerEvaluate"
         method="post"
       >
         <!-- Full Name -->
@@ -75,23 +46,6 @@
           </div>
         </div>
 
-        <div class="form-row">
-          <div class="col-md-12 mb-3">
-            <label for="Age">Age</label>
-            <input
-              type="number"
-              class="form-control"
-              id="Age"
-              name="Age"
-              placeholder="Age"
-              min="18"
-              max="99"
-              value="<%= user.Age %>"
-              disabled
-            />
-          </div>
-        </div>
-
         <hr />
 
         <div class="form-row">
@@ -106,6 +60,7 @@
                 id="ieMake"
                 placeholder="ieMake"
                 value="<%= user.car_details.make %>"
+                disabled
               />
             </div>
             <div class="col-md-12 mb-3 px-0">
@@ -117,6 +72,7 @@
                 id="model"
                 placeholder="model"
                 value="<%= user.car_details.model %>"
+                disabled
               />
             </div>
             <div class="col-md-12 mb-3 px-0">
@@ -129,6 +85,7 @@
                 placeholder="year"
                 value="<%= user.car_details.year %>"
                 min="0"
+                disabled
               />
             </div>
 
@@ -141,17 +98,65 @@
                 id="platNumber"
                 placeholder="0X0-X0X"
                 value="<%= user.car_details.platNo %>"
+                disabled
               />
             </div>
           </div>
         </div>
 
-        <input type="hidden" value="G" name="TestType" />
-        <input type="hidden" value="<%= user._id %>" name="userId" />
-        <button class="btn btn-primary">Submit form</button>
-      </form>
+        <hr />
+        <h1 class="text-center my-3">Exam Result</h1>
+        <div class="form-group d-flex flex-row justify-content-around">
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="examResult"
+              id="Pass"
+              value="Pass"
+            />
+            <label class="form-check-label mt-1" for="Pass"> Pass </label>
+          </div>
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="examResult"
+              id="Fail"
+              value="Fail"
+            />
+            <label class="form-check-label mt-1" for="Fail"> Fail </label>
+          </div>
+        </div>
 
-      <% }%>
+        <hr />
+        <div class="form-group">
+          <label for="exampleFormControlTextarea1">comment</label>
+          <textarea
+            class="form-control"
+            id="examComment"
+            name="examComment"
+            rows="3"
+          ></textarea>
+        </div>
+
+        <hr />
+
+        <div class="form-group d-flex flex-column">
+          <input type="hidden" value="<%= user.TestType %>" name="TestType" />
+          <input type="hidden" value="<%= user._id %>" name="userId" />
+          <button
+            href="/examiner/AccessExaminerPage"
+            class="btn btn-danger mb-3"
+          >
+            Submit
+          </button>
+
+          <a href="/examiner/AccessExaminerPage" class="btn btn-primary"
+            >Go Back</a
+          >
+        </div>
+      </form>
     </main>
 
     <!-- footer -->

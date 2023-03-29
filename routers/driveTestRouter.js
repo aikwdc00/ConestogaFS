@@ -27,5 +27,10 @@ router.post('/G_TEST_Edit', isAuth, isDriver, GTestController.postEditGTestData)
 // appointment
 router.get('/appointment', isAuth, isAdmin, appointmentController.getAppointmentPage)
 router.post('/postAppoint', isAuth, isAdmin, appointmentController.postAppointmentHandler)
+// admin
+router.get('/adminView', isAuth, isAdmin, appointmentController.getAdminPage)
+
+
+
 
 module.exports = router

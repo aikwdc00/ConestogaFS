@@ -11,3 +11,10 @@ exports.isAdmin = (req, res, next) => {
   }
   next();
 }
+
+exports.isExaminer = (req, res, next) => {
+  if (!req.user.isExaminer()) {
+    return res.redirect('/');
+  }
+  next();
+}

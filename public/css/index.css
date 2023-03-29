@@ -1,3 +1,8 @@
+h1 {
+  font-size: 2rem;
+  font-weight: bold;
+}
+/* msg */
 .MsgStyle {
   padding: 1rem 0;
   margin: 1rem auto;

@@ -44,12 +44,10 @@ exports.setSingleMsg = (req, msgObj) => {
 }
 
 exports.multipleMsg = (req, res, err) => {
-  console.log('err', err)
+
   const errors = err.errors
   const errs = Object.keys(errors)
   let msgObg = []
-
-  console.log('msgObg', msgObg)
 
   errs.map(item => msgObg.push({
     type: this.msgData.setMsgType(this.msgData.error),
@@ -57,7 +55,6 @@ exports.multipleMsg = (req, res, err) => {
     msg: errors[item].properties.message
   }))
 
-  console.log('msgObg', msgObg)
   req.flash(this.msgData.setMsgType(this.msgData.error), msgObg);
   return res.redirect('/G2_TEST');
 }

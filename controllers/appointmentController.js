@@ -1,7 +1,7 @@
 const User = require('../models/user')
 const Appointment = require('../models/appointment')
 const { getMsg, setSingleMsg, msgObj, msgData } = require('../Util/message')
-const { disabledTime, setDatesToString } = require('../Util/appointmentFn')
+const { setDatesToString } = require('../Util/appointmentFn')
 
 // get appointment page
 exports.getAppointmentPage = (req, res, next) => {
@@ -13,12 +13,11 @@ exports.getAppointmentPage = (req, res, next) => {
 
       const appointments = setDatesToString(appointment)
 
-      res.render('driveTest/appointment', {
+      res.render('admin/appointment', {
         pageTitle: 'Appointment',
         path: '/appointment',
         message,
         appointments,
-        disabledTime,
       })
     })
     .catch(err => console.log(err))
@@ -44,5 +43,30 @@ exports.postAppointmentHandler = (req, res, next) => {
       return res.redirect('/appointment')
     })
     .catch((err) => console.log('post appointment err', err))
+
+}
+
+
+// get appointment page
+exports.getAdminPage = (req, res, next) => {
+  const message = getMsg(req, msgData.nowMsgType)
+
+  Appointment
+    .find()
+    .populate('userId')
+    .then((appointment) => {
+
+      const appointments = setDatesToString(appointment)
+      const filterData = appointment.filter(item => item?.userId)
+
+      res.render('admin/Admin', {
+        pageTitle: 'Admin',
+        path: '/adminView',
+        message,
+        filterData,
+        appointments
+      })
+    })
+    .catch(err => console.log(err))
 
 }

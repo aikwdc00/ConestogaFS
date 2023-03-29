@@ -32,10 +32,9 @@ exports.getG2TEST = (req, res, next) => {
     .populate('userId')
     .then((appsResult) => {
 
-      console.log('appsResult', appsResult)
       const appointments = setDatesToString(appsResult)
-      const filterData = appsResult.filter(item => item?.userId?._id.valueOf() == user._id)
-      // console.log('filterData', filterData)
+      const filterData = appsResult.filter(item => item?.userId?._id.valueOf() == user._id)[0]
+
       res.render('driveTest/G2', {
         pageTitle: 'G2_TEST',
         path: '/G2_TEST',
@@ -85,7 +84,7 @@ exports.postG2TestData = (req, res, next) => {
 exports.postG2TestEditData = (req, res, next) => {
   // console.log('req.body', req.body)
   // return
-  const { FirstName, LastName, Age, LicenseNumber, ieMake, model, year, platNumber, userId, date, time } = req.body
+  const { LicenseNumber, userId, time } = req.body
 
   if (!pattern.licenseNoExam.test(LicenseNumber) && req.user.LicenseNo === 'default') {
     setSingleMsg(req,

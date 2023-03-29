@@ -2,7 +2,6 @@ const getAppointments = $('#appointments').val()
 const addedAppointment = getAppointments && JSON.parse(getAppointments) || []
 addedAppointment.sort((a, b) => new Date(b.createdAt).valueOf() - new Date(a.createdAt).valueOf())
 
-console.log('addedAppointment', addedAppointment)
 // create a array of time
 function getTimeStops(start, end) {
   const startTime = moment(start, 'HH:mm');
@@ -48,4 +47,7 @@ $(document).ready(function () {
   appointmentHandler.appointInitialHandler()
   // g2 page
   g2Handler.setDatePickerDefault();
+  // examiner page
+  examinerPageHandler.examinerFilterData();
+  examinerPageHandler.examinerInitialRender()
 });

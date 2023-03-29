@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('../layout/head.ejs') %>
+
+  <body>
+    <!-- navigation -->
+    <%- include('../layout/navigation.ejs') %>
+
+    <!-- message -->
+    <%- include('../components/message.ejs', message) %>
+
+    <main class="p-5">
+      <form action="">
+        <input
+          type="hidden"
+          value="<%= filterDataString %>"
+          id="filterAppointList"
+        />
+        <div class="col-12 formItems">
+          <label for="filterTestType">Filter Test Type</label>
+          <select
+            class="form-control"
+            aria-label="Default select example"
+            name="filterTestType"
+            id="filterTestType"
+          >
+            <option value="All">All</option>
+            <option value="G2">G2</option>
+            <option value="G">G</option>
+          </select>
+        </div>
+      </form>
+
+      <hr />
+
+      <div class="list-group" id="renderAppointData">
+        <!-- render appointments data -->
+      </div>
+    </main>
+
+    <!-- footer -->
+    <%- include('../layout/footer.ejs') %>
+    <!-- script -->
+    <%- include('../layout/end.ejs')%>
+  </body>
+</html>

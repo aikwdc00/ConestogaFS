@@ -121,16 +121,34 @@
           </div>
         </div>
 
+        <% if (filterData?.userId?.testResult ) { %>
+        <hr />
+        <div>
+          <h2 class="text-center">Test Result</h2>
+
+          <div>
+            <h3>Examiner Comment</h3>
+            <p><%= filterData?.userId?.comment %></p>
+          </div>
+
+          <div>
+            <h3>Result</h3>
+            <p>
+              <%= filterData?.userId?.testResult.isPassed ?'Passed':'Failed' %>
+            </p>
+          </div>
+        </div>
+
+        <% } %> <% if (filterData ) { %>
         <hr />
         <h3 class="mb-3">You already booked these time as below:</h3>
         <ol class="d-flex flex-column justify-content-around w-100">
-          <% filterData.forEach(item => { %>
           <li class="d-flex justify-content-around w-50">
-            <p class="p-2"><%= item.date %></p>
-            <p class="p-2"><%= item.time %></p>
+            <p class="p-2"><%= filterData.date %></p>
+            <p class="p-2"><%= filterData.time %></p>
           </li>
-          <% }) %>
         </ol>
+        <% } %>
         <hr />
         <input type="hidden" value="<%= appointments %>" id="appointments" />
         <div class="col-12 formItems">
@@ -155,6 +173,8 @@
         </div>
 
         <hr />
+
+        <input type="hidden" value="G2" name="TestType" />
         <input type="hidden" value="<%= user._id %>" name="userId" />
         <button class="btn btn-primary">Submit form</button>
       </form>

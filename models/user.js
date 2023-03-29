@@ -67,14 +67,25 @@ const userSchema = new Schema({
     // },
     default: 'default'
   },
-  appointmentsData: [
-    {
-      appointmentId: {
-        type: Schema.Types.ObjectId,
-        ref: 'Appointment'
-      },
+  appointmentId: {
+    type: Schema.Types.ObjectId,
+    ref: 'Appointment'
+  },
+  TestType: {
+    type: String,
+    enum: ["G2", "G"],
+  },
+  comment: {
+    type: String,
+  },
+  testResult: {
+    testType: {
+      type: String,
+    },
+    isPassed: {
+      type: Boolean,
     }
-  ],
+  },
   car_details: {
     make: {
       type: String,
@@ -110,20 +121,28 @@ userSchema.methods.isAdmin = function () {
 };
 
 
-userSchema.methods.storeData = function (data, req, res) {
+userSchema.methods.storeData = function (data, req, res, examinerComment = false) {
 
-  const { FirstName, LastName, Age, LicenseNumber, ieMake, model, year, platNumber, userId, date, time } = data
+  const { FirstName, LastName, Age, LicenseNumber, ieMake, model, year, platNumber, userId, date, time, TestType, examResult, examComment, } = data
 
-  if (this.LicenseNo !== 'default') {
+
+  if (examinerComment) {
+    this.comment = examComment
+    this.testResult = {
+      testType: TestType,
+      isPassed: examResult == 'Pass' ? true : false
+    }
+
+    return this.save();
+  } else if (this.LicenseNo !== 'default') {
     this.car_details.make = ieMake
     this.car_details.model = model
     this.car_details.year = year
     this.car_details.platNo = platNumber
+    this.TestType = TestType
 
     if (data?.time) {
-      this.appointmentsData.push({
-        appointmentId: time
-      })
+      this.appointmentId = time
     }
 
     return this.save();
@@ -141,25 +160,14 @@ userSchema.methods.storeData = function (data, req, res) {
         this.car_details.model = model
         this.car_details.year = year
         this.car_details.platNo = platNumber
+        this.TestType = TestType
 
         if (data?.time) {
-          this.appointmentsData.push({
-            appointmentId: time
-          })
+          this.appointmentId = time
         }
 
         return this.save();
       })
-    // .then((result => {
-
-    //   setSingleMsg(req,
-    //     msgObj(msgData.setMsgType(msgData.success),
-    //       msgData.updateSuccess))
-    //   res.redirect(`/G_TEST/${result._id}`)
-    // }))
-    // .catch(err => {
-    //   multipleMsg(req, res, err)
-    // });
   }
 }
 
