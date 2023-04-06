@@ -24,7 +24,7 @@
 
       <div class="list-group">
         <% filterData.forEach(item=> { %> <% if (item?.userId?.userType ==
-        'Driver') { %>
+        'Driver' && item?.userId?.testResult?.testType) { %>
 
         <div class="list-group-item list-group-item-action">
           <form
@@ -82,15 +82,16 @@
                 />
               </div>
             </div>
-
           </form>
         </div>
 
         <% } %> <% }) %>
       </div>
 
+      <% } else { %>
+      <h1 class="text-center">No data found</h1>
       <% } %>
-    </main
+    </main>
 
     <!-- footer -->
     <%- include('../layout/footer.ejs') %>

@@ -65,12 +65,7 @@ exports.postEditGTestData = (req, res, next) => {
 
   User.findById(reqBody.userId)
     .then((user) => {
-      user.car_details.make = reqBody.ieMake
-      user.car_details.model = reqBody.model
-      user.car_details.year = reqBody.year
-      user.car_details.platNo = reqBody.platNumber
-
-      return user.save()
+      return req.user.storeData(reqBody, req, res)
     })
     .then((result => {
       setSingleMsg(req,

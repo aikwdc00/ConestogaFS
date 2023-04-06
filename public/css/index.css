@@ -94,3 +94,12 @@ hr {
   font-weight: bold;
   padding: 0;
 }
+
+.testResultWrap h3 {
+  flex: 1;
+  text-align: right;
+  margin-right: 2rem;
+}
+.testResultWrap p {
+  width: 80%;
+}

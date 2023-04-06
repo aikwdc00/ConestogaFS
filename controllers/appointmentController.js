@@ -46,7 +46,6 @@ exports.postAppointmentHandler = (req, res, next) => {
 
 }
 
-
 // get appointment page
 exports.getAdminPage = (req, res, next) => {
   const message = getMsg(req, msgData.nowMsgType)
