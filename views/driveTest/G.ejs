@@ -146,6 +146,31 @@
           </div>
         </div>
 
+        <hr />
+        <input type="hidden" value="<%= appointments %>" class="appointments" />
+        <div class="col-12 formItems">
+          <label for="confirmPw">Appointment Date</label>
+          <input
+            type="date"
+            class="form-control"
+            name="date"
+            id="userAppointDate"
+            value=""
+          />
+        </div>
+
+        <div class="col-12 formItems">
+          <label for="confirmPw">Appointment slots</label>
+          <select
+            class="form-control"
+            aria-label="Default select example"
+            name="time"
+            id="userAppointSlots"
+          ></select>
+        </div>
+
+        <hr />
+
         <input type="hidden" value="G" name="TestType" />
         <input type="hidden" value="<%= user._id %>" name="userId" />
         <button class="btn btn-primary">Submit form</button>

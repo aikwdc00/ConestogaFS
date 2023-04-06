@@ -1,10 +1,13 @@
 const User = require('../models/user')
+const Appointment = require('../models/appointment')
 const { getMsg, setSingleMsg, msgObj, msgData } = require('../Util/message')
+const { setDatesToString } = require('../Util/appointmentFn')
 
 // G Test
 exports.getGTEST = (req, res, next) => {
   const message = getMsg(req, msgData.nowMsgType)
-  const { firstName, lastName, LicenseNo } = req.user
+  const user = req.user
+  const { firstName, lastName, LicenseNo } = user
 
   if (firstName == 'default' || lastName == 'default' || LicenseNo == 'default') {
     setSingleMsg(req,
@@ -13,13 +16,25 @@ exports.getGTEST = (req, res, next) => {
     return res.redirect('/G2_TEST')
   }
 
-  res.render('driveTest/G', {
-    pageTitle: 'G_TEST',
-    path: '/G_TEST',
-    user: null,
-    message,
-    user: req.user,
-  })
+  Appointment
+    .find()
+    .populate('userId')
+    .then((appsResult) => {
+
+      const appointments = setDatesToString(appsResult)
+      const filterData = appsResult.filter(item => item?.userId?._id.valueOf() == user._id)[0]
+
+      res.render('driveTest/G', {
+        pageTitle: 'G_TEST',
+        path: '/G_TEST',
+        user: null,
+        message,
+        user,
+        appointments,
+        filterData,
+      })
+    })
+    .catch(err => console.log('err', err))
 
 }
 
@@ -62,17 +77,42 @@ exports.getUserIdGTEST = (req, res, next) => {
 
 exports.postEditGTestData = (req, res, next) => {
   const reqBody = req.body
+  const { LicenseNumber, userId, time } = reqBody
 
   User.findById(reqBody.userId)
     .then((user) => {
       return req.user.storeData(reqBody, req, res)
     })
     .then((result => {
-      setSingleMsg(req,
-        msgObj(msgData.setMsgType(msgData.success),
-          msgData.updateSuccess))
 
-      res.redirect(`/G_TEST/${result._id}`)
+      if (req.body?.time) {
+        Appointment.findById({ _id: time })
+          .then((app) => {
+            app.isTimeSlotAvailable = false
+            app.userId = userId;
+            return app.save()
+          })
+          .then(result => {
+            if (result) {
+              setSingleMsg(req,
+                msgObj(msgData.setMsgType(msgData.success),
+                  msgData.updateSuccess))
+              res.redirect(`/G_TEST`)
+            }
+          })
+          .catch(err => console.log('err'))
+      } else {
+        setSingleMsg(req,
+          msgObj(msgData.setMsgType(msgData.success),
+            msgData.updateSuccess))
+        res.redirect(`/G_TEST`)
+      }
+
+      // setSingleMsg(req,
+      //   msgObj(msgData.setMsgType(msgData.success),
+      //     msgData.updateSuccess))
+      // res.redirect(`/G_TEST`)
+
     }))
     .catch(err => {
       console.log(err)
