@@ -1,7 +1,5 @@
 const User = require('../models/user')
 const Appointment = require('../models/appointment')
-const bcrypt = require('bcrypt');
-const saltRounds = 12;
 const { getMsg, setSingleMsg, msgObj, msgData, multipleMsg } = require('../Util/message')
 const pattern = require('../Util/pattern')
 const { setDatesToString } = require('../Util/appointmentFn')
@@ -10,22 +8,6 @@ const { setDatesToString } = require('../Util/appointmentFn')
 exports.getG2TEST = (req, res, next) => {
   const message = getMsg(req, msgData.nowMsgType)
   const user = req.user
-
-  // const { firstName, lastName, LicenseNo } = req.user
-  // if (firstName !== 'default' && lastName !== 'default' && LicenseNo != 'default') {
-
-  //   setSingleMsg(req,
-  //     msgObj(msgData.setMsgType(msgData.error),
-  //       msgData.alreadyCompleteData))
-  //   return res.redirect('/G_TEST')
-  // }
-
-  // User.findById(user._id)
-  //   .populate('appointmentsData.appointmentId')
-  //   .then(foundUser => {
-  //     console.log('foundUser', foundUser.appointmentsData)
-  //   })
-  //   .catch(err => console.log('err', err))
 
   Appointment
     .find()
