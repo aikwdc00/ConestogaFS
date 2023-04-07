@@ -56,7 +56,7 @@ const examinerPageHandler = {
   examinerInitialRender() {
 
     let data = ''
-    appointList.map(item => {
+    appointList.sort((a, b) => new Date(b.createdAt).valueOf() - new Date(a.createdAt).valueOf()).map(item => {
       data += this.renderList(item)
     })
 
