@@ -1,6 +1,6 @@
-const getAppointments = $('.appointments').val()
+const getAppointments = $('#appointments').val()
 const addedAppointment = getAppointments && JSON.parse(getAppointments) || []
-addedAppointment.sort((a, b) => new Date(b.createdAt).valueOf() - new Date(a.createdAt).valueOf())
+// addedAppointment.sort((a, b) => new Date(b.createdAt).valueOf() - new Date(a.createdAt).valueOf())
 
 // create a array of time
 function getTimeStops(start, end) {

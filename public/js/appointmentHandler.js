@@ -21,6 +21,10 @@ const appointmentHandler = {
   },
   disabledTime(time) { // if the same date and time, be disable
     if (!addedAppointment.length) return ''
+    // console.log('item.date', item.date)
+    console.log('this.chooseDate', this.chooseDate)
+    // console.log('item.time', item.time)
+    console.log('time', time)
     return addedAppointment.some(item => (item.date == this.chooseDate) && (item.time == time)) ? 'disabled' : ''
   },
   renderTimeSlots(inertNode) {
