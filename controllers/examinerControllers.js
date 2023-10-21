@@ -47,14 +47,24 @@ exports.getDriverInfoDetail = (req, res, next) => {
 
 exports.postExaminerEvaluate = (req, res, next) => {
 
-  const { userId } = req.body
-  const message = getMsg(req, msgData.nowMsgType)
+  const { userId, examResult, examComment } = req.body
+
+  console.log('req.body', req.body)
+  if (!examResult || !examComment) {
+    setSingleMsg(req,
+      msgObj(msgData.setMsgType(msgData.error),
+        msgData.driverDetailError))
+
+    return res.redirect(`/examiner/driverDetail/${userId}`)
+  }
 
   User.findById(userId)
     .then((user) => {
+      console.log('user', user)
       return user.storeData(req.body, req, res, true)
     })
     .then(result => {
+      console.log('result', result)
       res.redirect('AccessExaminerPage')
 
     })

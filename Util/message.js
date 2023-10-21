@@ -15,6 +15,7 @@ exports.msgData = {
   bookingSuccess: 'Booking success!!',
   bookingFailed: 'Booking failed, please choose other time!!',
   bookDateUndefined: 'Please choose a booking date!!',
+  driverDetailError: 'should complete result and comment',
   setMsgType(val) {
     return this.nowMsgType = val
   }

@@ -108,23 +108,15 @@
         <h1 class="text-center my-3">Exam Result</h1>
         <div class="form-group d-flex flex-row justify-content-around">
           <div class="form-check">
-            <input
-              class="form-check-input"
-              type="radio"
-              name="examResult"
-              id="Pass"
-              value="Pass"
-            />
+            <input class="form-check-input" type="radio" name="examResult"
+            id="Pass" value="Pass" <%= user.testResult.isPassed ? 'checked':''
+            %> />
             <label class="form-check-label mt-1" for="Pass"> Pass </label>
           </div>
           <div class="form-check">
-            <input
-              class="form-check-input"
-              type="radio"
-              name="examResult"
-              id="Fail"
-              value="Fail"
-            />
+            <input class="form-check-input" type="radio" name="examResult"
+            id="Fail" value="Fail" <%= user.testResult.isPassed ==false ?
+            'checked':'' %> />
             <label class="form-check-label mt-1" for="Fail"> Fail </label>
           </div>
         </div>
@@ -137,7 +129,9 @@
             id="examComment"
             name="examComment"
             rows="3"
-          ></textarea>
+          >
+<%= user.comment ||'' %></textarea
+          >
         </div>
 
         <hr />
