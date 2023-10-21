@@ -18,6 +18,7 @@ exports.getLoginPage = (req, res, next) => {
 // post login
 exports.postSignInHandler = (req, res, next) => {
   const { userName, password } = req.body
+  console.log('req.body', req.body)
   if (!emailExam.test(userName)) {
     setSingleMsg(req,
       msgObj(msgData.setMsgType(msgData.error),
