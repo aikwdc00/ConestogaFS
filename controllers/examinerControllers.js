@@ -34,6 +34,7 @@ exports.getDriverInfoDetail = (req, res, next) => {
   User
     .findById(id)
     .then((foundUser) => {
+      console.log('foundUser', foundUser)
       res.render('examiner/viewDriverInfo', {
         pageTitle: 'DriverInfo',
         path: '/viewDriverInfo',
