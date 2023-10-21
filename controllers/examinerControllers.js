@@ -49,6 +49,7 @@ exports.postExaminerEvaluate = (req, res, next) => {
 
   const { userId, examResult, examComment } = req.body
 
+  console.log('req.body', req.body)
   if (!examResult || !examComment) {
     setSingleMsg(req,
       msgObj(msgData.setMsgType(msgData.error),
@@ -59,9 +60,11 @@ exports.postExaminerEvaluate = (req, res, next) => {
 
   User.findById(userId)
     .then((user) => {
+      console.log('user', user)
       return user.storeData(req.body, req, res, true)
     })
     .then(result => {
+      console.log('result', result)
       res.redirect('AccessExaminerPage')
 
     })
